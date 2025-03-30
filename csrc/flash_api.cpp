@@ -127,7 +127,7 @@ mha_fwd_kvcache_mla(
     at::cuda::CUDAGuard device_guard{(char)q.get_device()};
 
     auto opts = q.options();
-    at::Tensor out = torch::empty({batch_size, seqlen_q, num_heads, head_size_v}, opts);
+    at::Tensor out = torch::zeros({batch_size, seqlen_q, num_heads, head_size_v}, opts);
     at::Tensor softmax_lse = torch::full({batch_size, num_heads, seqlen_q}, -float('inf'), opts.dtype(at::kFloat));
 
     Flash_fwd_mla_params params = {};
@@ -178,8 +178,8 @@ mha_fwd_kvcache_mla(
     CHECK_CONTIGUOUS(num_splits);
     params.num_splits_ptr = num_splits.data_ptr<int>();
 
-    at::Tensor softmax_lse_accum = torch::empty({batch_size + params.num_sm_parts, num_heads, seqlen_q}, opts.dtype(at::kFloat));
-    at::Tensor out_accum = torch::empty({batch_size + params.num_sm_parts, num_heads, seqlen_q, head_size_v}, opts.dtype(at::kFloat));
+    at::Tensor softmax_lse_accum = torch::full({batch_size + params.num_sm_parts, num_heads, seqlen_q}, -float('inf'), opts.dtype(at::kFloat));
+    at::Tensor out_accum = torch::zeros({batch_size + params.num_sm_parts, num_heads, seqlen_q, head_size_v}, opts.dtype(at::kFloat));
     params.softmax_lseaccum_ptr = softmax_lse_accum.data_ptr();
     params.oaccum_ptr = out_accum.data_ptr();
 
