@@ -475,6 +475,9 @@ flash_fwd_splitkv_mla_kernel(__grid_constant__ const Flash_fwd_mla_params params
         if (batch_id > begin_idx) {
             __syncthreads();  // Barrier between two tiles.
         }
+        if (seqlen_k == 0) {
+            continue;
+        }
         flash::compute_attn_1rowblock_splitkv_mla<Kernel_traits, Is_causal>(params, batch_id, bidh, m_block, n_split_idx, seqlen_k, n_block_min, n_block_max, NoSplit, shared_storage);
     }
 }
