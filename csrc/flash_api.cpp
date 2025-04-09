@@ -128,7 +128,7 @@ mha_fwd_kvcache_mla(
 
     auto opts = q.options();
     at::Tensor out = torch::empty({batch_size, seqlen_q, num_heads, head_size_v}, opts);
-    at::Tensor softmax_lse = torch::full({batch_size, num_heads, seqlen_q}, -float('inf'), opts.dtype(at::kFloat));
+    at::Tensor softmax_lse = torch::empty({batch_size, num_heads, seqlen_q}, opts.dtype(at::kFloat));
 
     Flash_fwd_mla_params params = {};
     // Set the sizes.
