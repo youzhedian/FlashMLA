@@ -17,6 +17,9 @@ get_mla_metadata_kernel(__grid_constant__ const Mla_metadata_params params) {
 
     int total_num_blocks = 0;
     for (int i = threadIdx.x; i < batch_size; i += 32) {
+        if (i == 0) {
+            printf("drop in falshmla.\n");
+        }
         int num_blocks = cutlass::ceil_div(seqlens_k_ptr[i], block_size_n);
         total_num_blocks += num_blocks + fixed_overhead_num_blocks;
         num_blocks_shared[i] = num_blocks;
