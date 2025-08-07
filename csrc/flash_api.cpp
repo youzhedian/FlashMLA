@@ -116,6 +116,11 @@ mha_fwd_kvcache_mla(
     CHECK_SHAPE(q, batch_size, seqlen_q, num_heads, head_size);
     CHECK_SHAPE(kcache, num_blocks, page_block_size, num_heads_k, head_size_k);
     if (vcache_.has_value()) { CHECK_SHAPE(vcache, num_blocks, page_block_size, num_heads_k, head_size_v); }
+    // if (batch_size != block_table.size(0)) {
+    //     printf("batch_size is %d, and block_table.size(0) %d, max_num_blocks_per_seq %d", int(batch_size), int(block_table.size(0)), int(max_num_blocks_per_seq));
+    // }
+    printf("batch_size is %d, max_num_blocks_per_seq %d, and block_table.size(0) %d, and block_table.size(1) %d\n", int(batch_size), int(max_num_blocks_per_seq), int(block_table.size(0)), int(block_table.size(1)));
+
     CHECK_SHAPE(block_table, batch_size, max_num_blocks_per_seq);
 
 
