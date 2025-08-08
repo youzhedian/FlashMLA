@@ -120,6 +120,7 @@ mha_fwd_kvcache_mla(
     //     printf("batch_size is %d, and block_table.size(0) %d, max_num_blocks_per_seq %d", int(batch_size), int(block_table.size(0)), int(max_num_blocks_per_seq));
     // }
     printf("batch_size is %d, max_num_blocks_per_seq %d, and block_table.size(0) %d, and block_table.size(1) %d\n", int(batch_size), int(max_num_blocks_per_seq), int(block_table.size(0)), int(block_table.size(1)));
+    fflush(stdout);
 
     CHECK_SHAPE(block_table, batch_size, max_num_blocks_per_seq);
 
